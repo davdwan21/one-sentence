@@ -1,10 +1,10 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Index from "./index";
+import { Slot } from "expo-router";
 
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <Index />
+      <Slot />
     </SafeAreaProvider>
   );
 }
