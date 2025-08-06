@@ -5,7 +5,6 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#222",
   },
   title: {
     position: "absolute",
@@ -38,5 +37,25 @@ export const globalStyles = StyleSheet.create({
   successText: {
     fontSize: 24,
     color: "#E0E0E0",
+  },
+  backgroundMonth: {
+    position: "absolute",
+    top: "-2.5%",
+    left: "-12.5%",
+    fontSize: 170,
+    color: "#666",
+    fontWeight: "bold",
+    opacity: 0.15,
+    zIndex: -1,
+  },
+  backgroundDayYear: {
+    position: "absolute",
+    top: "17.5%",
+    left: "-12.5%",
+    fontSize: 80,
+    color: "#666",
+    fontWeight: "bold",
+    opacity: 0.15,
+    zIndex: -1,
   },
 });

@@ -47,13 +47,25 @@ export default function Index() {
         params: { userInput: inputValue },
       });
       console.log("navigation successful");
-    }, 2000);
+    }, 1500);
   };
 
+  // get date
+  const date = new Date();
+  const month = date
+    .toLocaleDateString("en-US", { month: "short" })
+    .toUpperCase();
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
+
   return (
-    <SafeAreaView style={globalStyles.container}>
+    <SafeAreaView style={[{ backgroundColor: "#222" }, globalStyles.container]}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={globalStyles.container}>
+        <View style={{ flex: 1 }}>
+          <Text style={globalStyles.backgroundMonth}>{month}</Text>
+          <Text style={globalStyles.backgroundDayYear}>
+            {day} {year}
+          </Text>
           {!showSuccess ? (
             <Animated.View
               style={[globalStyles.container, { opacity: fadeAnim }]}
