@@ -22,12 +22,13 @@ export default function viewScreen() {
 
   const Item = ({ date, content }: { date: string; content: string }) => (
     <View style={viewStyles.itemContainer}>
-      <Text style={globalStyles.successText}>{date + "\n" + content}</Text>
+      <Text style={viewStyles.logDate}>{date}</Text>
+      <Text style={viewStyles.logContent}>{content}</Text>
     </View>
   );
 
   return (
-    <View style={viewStyles.testContainer}>
+    <View style={viewStyles.listContainer}>
       <Text style={globalStyles.title}>view logs</Text>
       <FlatList
         data={DATA}

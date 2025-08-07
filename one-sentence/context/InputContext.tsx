@@ -15,7 +15,7 @@ export const useInputContext = () => {
   return context;
 };
 
-// custom wrapper for a state value and input context provider
+// Custom wrapper for a state value and input context provider
 export const InputProvider = ({ children }: { children: ReactNode }) => {
   const [inputValue, setInputValue] = useState("");
   return (

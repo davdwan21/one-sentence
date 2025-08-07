@@ -1,21 +1,28 @@
-import { StyleSheet } from "react-native";
+import { LogBox, StyleSheet } from "react-native";
 
 export const viewStyles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: "#888",
+    backgroundColor: "transparent",
     padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    transform: [{ translateY: 120 }],
-    borderWidth: 1,
-    borderColor: "blue",
+    transform: [{ translateY: 100 }],
+    borderBottomWidth: 1,
+    borderBottomColor: "#444",
   },
-  testContainer: {
+  listContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: "purple",
     width: 400,
+  },
+  logDate: {
+    fontSize: 14,
+    marginBottom: 8,
+    color: "#aaa",
+  },
+  logContent: {
+    fontSize: 16,
+    color: "#eee",
   },
 });
