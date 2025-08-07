@@ -9,8 +9,9 @@ import {
   Animated,
 } from "react-native";
 import { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { getCombinedDate } from "./utils/getDate";
 import { useRouter } from "expo-router";
+import { indexStyles } from "./styles/indexStyles";
 import { globalStyles } from "./styles/globalStyles";
 
 // might need to implement a character count
@@ -22,14 +23,11 @@ export default function Index() {
   const fadeAnim = useAnimatedValue(1);
   const [inputValue, setInputValue] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const date = getCombinedDate();
 
   const handleSubmit = () => {
-    console.log("submitted value " + inputValue);
+    console.log("Submitted value: " + inputValue);
     Keyboard.dismiss();
-    fadeOut();
-  };
-
-  const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 1000,
@@ -43,55 +41,46 @@ export default function Index() {
   const handleNavigation = () => {
     setTimeout(() => {
       router.push({
-        pathname: "/success",
-        params: { userInput: inputValue },
+        pathname: "/view",
+        params: {
+          userInput: inputValue,
+          date: date,
+        },
       });
-      console.log("navigation successful");
+      console.log("Navigation successful");
     }, 1500);
   };
 
-  // get date
-  const date = new Date();
-  const month = date
-    .toLocaleDateString("en-US", { month: "short" })
-    .toUpperCase();
-  const day = String(date.getDate()).padStart(2, "0");
-  const year = date.getFullYear();
-
   return (
-    <SafeAreaView style={[{ backgroundColor: "#222" }, globalStyles.container]}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
-          <Text style={globalStyles.backgroundMonth}>{month}</Text>
-          <Text style={globalStyles.backgroundDayYear}>
-            {day} {year}
-          </Text>
-          {!showSuccess ? (
-            <Animated.View
-              style={[globalStyles.container, { opacity: fadeAnim }]}
-            >
-              <Text style={globalStyles.title}>home page</Text>
-              <TextInput
-                style={globalStyles.input}
-                placeholder="what's on your mind?"
-                placeholderTextColor={"#666"}
-                value={inputValue}
-                onChangeText={setInputValue}
-                multiline={true}
-                numberOfLines={4}
-              />
-              <TouchableOpacity
-                style={globalStyles.button}
-                onPress={handleSubmit}
-              >
-                <Text>submit log</Text>
-              </TouchableOpacity>
-            </Animated.View>
-          ) : (
-            <Text style={globalStyles.successText}>success :)</Text>
-          )}
+    <TouchableWithoutFeedback
+      style={indexStyles.keyboardDismissContainer}
+      onPress={Keyboard.dismiss}
+    >
+      {!showSuccess ? (
+        <Animated.View
+          style={[indexStyles.keyboardDismissContainer, { opacity: fadeAnim }]}
+        >
+          <Text style={globalStyles.title}>home page</Text>
+          <TextInput
+            style={indexStyles.input}
+            multiline={true}
+            placeholder={
+              "what's on your mind?\n\n...\n\n\nan idea? a feeling? a goal?"
+            }
+            placeholderTextColor={"#666"}
+            value={inputValue}
+            onChangeText={setInputValue}
+            numberOfLines={4}
+          />
+          <TouchableOpacity style={indexStyles.button} onPress={handleSubmit}>
+            <Text>submit log</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      ) : (
+        <View style={globalStyles.container}>
+          <Text style={globalStyles.successText}>success :)</Text>
         </View>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+      )}
+    </TouchableWithoutFeedback>
   );
 }
