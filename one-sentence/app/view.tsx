@@ -28,7 +28,7 @@ export default function viewScreen() {
   );
 
   return (
-    <View style={viewStyles.listContainer}>
+    <View style={viewStyles.viewContainer}>
       <Text style={globalStyles.title}>view logs</Text>
       <FlatList
         data={DATA}
@@ -36,6 +36,7 @@ export default function viewScreen() {
           <Item date={item.date} content={item.content} />
         )}
         keyExtractor={(item) => item.id}
+        style={viewStyles.listContainer}
       />
     </View>
   );

@@ -4,16 +4,13 @@ export const viewStyles = StyleSheet.create({
   itemContainer: {
     backgroundColor: "transparent",
     padding: 20,
-    transform: [{ translateY: 100 }],
     borderBottomWidth: 1,
     borderBottomColor: "#444",
   },
-  listContainer: {
+  viewContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "purple",
     width: 400,
   },
   logDate: {
@@ -24,5 +21,8 @@ export const viewStyles = StyleSheet.create({
   logContent: {
     fontSize: 16,
     color: "#eee",
+  },
+  listContainer: {
+    transform: [{ translateY: 100 }],
   },
 });
