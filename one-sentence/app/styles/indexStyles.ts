@@ -13,12 +13,6 @@ export const indexStyles = StyleSheet.create({
     padding: 12,
     marginTop: 40,
   },
-  button: {
-    backgroundColor: "#888",
-    padding: 15,
-    borderRadius: 5,
-    marginTop: 20,
-  },
   fadingContainer: {
     padding: 20,
   },
@@ -27,5 +21,11 @@ export const indexStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 400,
+  },
+  button: {
+    backgroundColor: "#888",
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 20,
   },
 });

@@ -43,12 +43,18 @@ export default function Index() {
       router.push({
         pathname: "/view",
         params: {
-          userInput: inputValue,
+          content: inputValue,
           date: date,
         },
       });
       console.log("Navigation successful");
     }, 1500);
+  };
+
+  const devGoToView = () => {
+    router.push({
+      pathname: "/view",
+    });
   };
 
   return (
@@ -60,6 +66,12 @@ export default function Index() {
         <Animated.View
           style={[indexStyles.keyboardDismissContainer, { opacity: fadeAnim }]}
         >
+          <TouchableOpacity
+            style={globalStyles.devButton}
+            onPress={devGoToView}
+          >
+            <Text>go to view</Text>
+          </TouchableOpacity>
           <Text style={globalStyles.title}>home page</Text>
           <TextInput
             style={indexStyles.input}

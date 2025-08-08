@@ -12,6 +12,8 @@ export const viewStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 400,
+    borderWidth: 1,
+    borderColor: "purple",
   },
   logDate: {
     fontSize: 14,
@@ -24,5 +26,9 @@ export const viewStyles = StyleSheet.create({
   },
   listContainer: {
     transform: [{ translateY: 100 }],
+    flex: 1,
+    width: "90%",
+    borderWidth: 1,
+    borderColor: "red",
   },
 });

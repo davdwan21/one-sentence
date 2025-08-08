@@ -38,4 +38,10 @@ export const globalStyles = StyleSheet.create({
     fontSize: 24,
     color: "#E0E0E0",
   },
+  devButton: {
+    backgroundColor: "red",
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 20,
+  },
 });

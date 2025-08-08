@@ -1,16 +1,16 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type InputContextType = {
+interface InputContextType {
   inputValue: string;
   setInputValue: (value: string) => void;
-};
+}
 
 const InputContext = createContext<InputContextType | undefined>(undefined);
 
 export const useInputContext = () => {
   const context = useContext(InputContext);
   if (!context) {
-    throw new Error("context not found");
+    throw new Error("Context not found");
   }
   return context;
 };
