@@ -27,10 +27,12 @@ export default function viewScreen() {
         await storeData(thisLog);
         const allData = await getAllData();
 
-        const formattedData = allData!.map(([key, value]) => {
-          const parsedValue = JSON.parse(value!);
-          return { ...parsedValue };
-        });
+        const formattedData = allData!
+          .map(([key, value]) => {
+            const parsedValue = JSON.parse(value!);
+            return { ...parsedValue };
+          })
+          .sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
         setDATA(formattedData);
       } catch (error) {

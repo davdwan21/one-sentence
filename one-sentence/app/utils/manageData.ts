@@ -22,8 +22,9 @@ export const getAllData = async () => {
 
     allData.forEach(([key, value]) => {
       console.log(`${key}: ${value}`);
-      console.log("Length of data: " + allData.length);
     });
+    console.log("Length of data: " + allData.length);
+    console.log(allData);
 
     return allData;
   } catch (e) {
