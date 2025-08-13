@@ -40,3 +40,12 @@ export const clearAllData = async () => {
     console.error("Error clearing AsyncStorage: " + error);
   }
 };
+
+export const removeLog = async (id: string) => {
+  try {
+    await AsyncStorage.removeItem(id);
+    console.log("Deleted item with id:", id);
+  } catch (error) {
+    console.error("Error clearing AsyncStorage: " + error);
+  }
+};

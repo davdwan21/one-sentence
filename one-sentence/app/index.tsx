@@ -66,12 +66,6 @@ export default function Index() {
         <Animated.View
           style={[indexStyles.keyboardDismissContainer, { opacity: fadeAnim }]}
         >
-          <TouchableOpacity
-            style={globalStyles.devButton}
-            onPress={devGoToView}
-          >
-            <Text>go to view</Text>
-          </TouchableOpacity>
           <Text style={globalStyles.title}>home page</Text>
           <TextInput
             style={indexStyles.input}

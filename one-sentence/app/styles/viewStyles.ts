@@ -25,7 +25,7 @@ export const viewStyles = StyleSheet.create({
     color: "#eee",
   },
   listContainer: {
-    transform: [{ translateY: 100 }],
+    marginTop: 100,
     flex: 1,
     width: "90%",
     borderWidth: 1,

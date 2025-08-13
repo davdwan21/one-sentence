@@ -42,6 +42,5 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "red",
     padding: 15,
     borderRadius: 5,
-    marginTop: 20,
   },
 });
