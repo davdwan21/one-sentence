@@ -20,11 +20,11 @@ export const getAllData = async () => {
     const allKeys = await AsyncStorage.getAllKeys();
     const allData = await AsyncStorage.multiGet(allKeys);
 
-    allData.forEach(([key, value]) => {
+    /* allData.forEach(([key, value]) => {
       console.log(`${key}: ${value}`);
     });
     console.log("Length of data: " + allData.length);
-    console.log(allData);
+    console.log(allData); */
 
     return allData;
   } catch (e) {
