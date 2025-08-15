@@ -15,6 +15,7 @@ import {
   removeLog,
 } from "./utils/manageData";
 import { useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 interface ItemProps {
   id: string;
@@ -29,12 +30,14 @@ export default function viewScreen() {
     { id: string; date: string; content: string }[]
   >([]);
   const { content, date } = useLocalSearchParams();
+  const [showDelete, setShowDelete] = useState<{ id: string; show: Boolean }[]>(
+    []
+  );
 
   useEffect(() => {
     const processData = async () => {
       try {
         const existingData = await getAllData();
-        // console.log(existingData);
 
         const newLogId = (existingData && existingData.length) || 0;
         const thisLog = {
@@ -53,6 +56,7 @@ export default function viewScreen() {
           })
           .sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
+        console.log(formattedData);
         setDATA(formattedData);
       } catch (error) {
         console.error("Error: " + error);
@@ -61,14 +65,14 @@ export default function viewScreen() {
     processData();
   }, [content, date]);
 
-  const receiveClearAllData = async () => {
-    await clearAllData();
-    setDATA([]);
-  };
-
   const receiveRemoveLog = async (id: string) => {
     await removeLog(id);
     setDATA((prevData) => prevData.filter((item) => item.id !== id));
+  };
+
+  const handleDelete = (id: string, date: string, content: string) => {
+    console.log("item deleted:", id, date, content);
+    receiveRemoveLog(id);
   };
 
   const handlePress = (id: string, date: string, content: string) => {
@@ -77,16 +81,33 @@ export default function viewScreen() {
 
   const handleLongPress = (id: string, date: string, content: string) => {
     console.log("item long pressed:", id, date, content);
-    receiveRemoveLog(id);
   };
 
-  const Item = ({ id, date, content, onPress, onLongPress }: ItemProps) => (
+  const Item = ({ id, date, content, onPress }: ItemProps) => (
+    /*     const [showDelete, setShowDelete] = useState(false);
+
+    const handleLongPress = (thisId: string) => {
+      console.log("item long pressed:", thisId);
+      setShowDelete(true);
+      const deleteAppears = setTimeout(() => {
+        setShowDelete(false);
+      }, 3000);
+    }; */
+
     <Pressable
       onPress={() => handlePress(id, date, content)}
       onLongPress={() => handleLongPress(id, date, content)}
     >
       <View style={viewStyles.itemContainer}>
-        <Text style={viewStyles.logDate}>{date}</Text>
+        <View style={viewStyles.inlineContainer}>
+          <Text style={viewStyles.logDate}>{date}</Text>
+          <Pressable
+            style={viewStyles.deleteContainer}
+            onPress={() => handleDelete(id, date, content)}
+          >
+            <Ionicons name="trash" size={17} color="#666" />
+          </Pressable>
+        </View>
         <Text style={viewStyles.logContent}>{content}</Text>
       </View>
     </Pressable>
@@ -95,12 +116,6 @@ export default function viewScreen() {
   return (
     <View style={viewStyles.viewContainer}>
       <Text style={globalStyles.title}>view logs</Text>
-      <TouchableOpacity
-        style={[{ transform: [{ translateY: 100 }] }, globalStyles.devButton]}
-        onPress={receiveClearAllData}
-      >
-        <Text>delete data</Text>
-      </TouchableOpacity>
       <FlatList
         data={DATA}
         renderItem={({ item }) => (
