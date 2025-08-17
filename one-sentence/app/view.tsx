@@ -1,9 +1,23 @@
 import { useLocalSearchParams } from "expo-router";
-import { Text, View, FlatList, Pressable } from "react-native";
+import {
+  Text,
+  View,
+  FlatList,
+  Pressable,
+  TouchableOpacity,
+  useAnimatedValue,
+  Animated,
+  Alert,
+} from "react-native";
 import { globalStyles } from "./styles/globalStyles";
 import { viewStyles } from "./styles/viewStyles";
-import { storeData, getAllData, removeLog } from "./utils/manageData";
-import { useEffect, useState } from "react";
+import {
+  storeData,
+  getAllData,
+  removeLog,
+  clearAllData,
+} from "./utils/manageData";
+import { useEffect, useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 interface ItemProps {
@@ -29,12 +43,14 @@ export default function viewScreen() {
   const [DATA, setDATA] = useState<LogProps[]>([]);
   const [showDelete, setShowDelete] = useState<ShowProps[]>([]);
   const { content, date } = useLocalSearchParams();
+  const trashTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const trashFadeAnim = useAnimatedValue(0);
 
+  // Store formatted data into DATA
   useEffect(() => {
     const processData = async () => {
       try {
-        const existingData = await getAllData();
-        const newLogId = Date.now().toLocaleString();
+        const newLogId = Date.now();
 
         const thisLog = {
           id: String(newLogId),
@@ -54,6 +70,7 @@ export default function viewScreen() {
           .sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
         setDATA(formattedData);
+        console.log(formattedData);
 
         setShowDelete(formattedData.map(({ id }) => ({ id, show: false })));
       } catch (error) {
@@ -63,6 +80,7 @@ export default function viewScreen() {
     processData();
   }, [content, date]);
 
+  // Initialize showDelete for trash bin animation
   useEffect(() => {
     setShowDelete((prev) =>
       DATA.map(({ id }) => ({
@@ -72,14 +90,27 @@ export default function viewScreen() {
     );
   }, [DATA]);
 
-  const receiveRemoveLog = async (id: string) => {
-    await removeLog(id);
-    setDATA((prevData) => prevData.filter((item) => item.id !== id));
+  const confirmDelete = (id: string) => {
+    Alert.alert(
+      "Delete log?",
+      "This action can't be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => actuallyDelete(id),
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
   };
 
-  const handleDelete = (id: string, date: string, content: string) => {
-    console.log("item deleted:", id, date, content);
-    receiveRemoveLog(id);
+  const actuallyDelete = async (id: string) => {
+    await removeLog(id);
+    setDATA((prevData) => prevData.filter((item) => item.id !== id));
   };
 
   const handlePress = (id: string, date: string, content: string) => {
@@ -87,7 +118,30 @@ export default function viewScreen() {
     console.log("temp:", showDelete);
   };
 
+  const receiveClearAllData = async () => {
+    await clearAllData();
+    setDATA([]);
+    console.log("receiveClearAllData success");
+  };
+
   const handleLongPress = (id: string, date: string, content: string) => {
+    console.log("long pressed:", id, date, content);
+
+    if (trashTimeout.current) {
+      clearTimeout(trashTimeout.current);
+      trashFadeAnim.stopAnimation();
+      Animated.timing(trashFadeAnim, {
+        toValue: 0,
+        duration: 0,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    Animated.timing(trashFadeAnim, {
+      toValue: 1,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
     setShowDelete((prev) =>
       prev.map((item) =>
         item.id === id
@@ -95,10 +149,17 @@ export default function viewScreen() {
           : { id: item.id, show: false }
       )
     );
-    setTimeout(() => {
-      setShowDelete((prev) =>
-        prev.map((item) => ({ id: item.id, show: false }))
-      );
+    trashTimeout.current = setTimeout(() => {
+      Animated.timing(trashFadeAnim, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+      }).start(() => {
+        setShowDelete((prev) =>
+          prev.map((item) => ({ id: item.id, show: false }))
+        );
+      });
+      trashTimeout.current = null;
     }, 2000);
   };
 
@@ -115,12 +176,17 @@ export default function viewScreen() {
           <View style={viewStyles.inlineContainer}>
             <Text style={viewStyles.logDate}>{date}</Text>
             {isDeleteVisible && (
-              <Pressable
-                style={viewStyles.deleteContainer}
-                onPress={() => handleDelete(id, date, content)}
+              <Animated.View
+                style={{ opacity: trashFadeAnim }}
+                pointerEvents={isDeleteVisible ? "auto" : "none"}
               >
-                <Ionicons name="trash" size={17} color="#666" />
-              </Pressable>
+                <Pressable
+                  style={viewStyles.deleteContainer}
+                  onPress={() => confirmDelete(id)}
+                >
+                  <Ionicons name="trash" size={17} color="#666" />
+                </Pressable>
+              </Animated.View>
             )}
           </View>
           <Text style={viewStyles.logContent}>{content}</Text>
@@ -132,6 +198,12 @@ export default function viewScreen() {
   return (
     <View style={viewStyles.viewContainer}>
       <Text style={globalStyles.title}>view logs</Text>
+      <TouchableOpacity
+        style={globalStyles.devButton}
+        onPress={receiveClearAllData}
+      >
+        <Text>delete logs</Text>
+      </TouchableOpacity>
       <FlatList
         data={DATA}
         renderItem={({ item }) => (

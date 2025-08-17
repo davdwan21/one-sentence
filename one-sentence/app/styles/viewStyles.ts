@@ -1,4 +1,4 @@
-import { LogBox, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 export const viewStyles = StyleSheet.create({
   itemContainer: {
