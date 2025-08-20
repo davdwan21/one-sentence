@@ -27,12 +27,16 @@ export const viewStyles = StyleSheet.create({
     flex: 1,
     width: "90%",
   },
-  inlineContainer: {
+  menuInlineContainer: {
     flexDirection: "row",
+    paddingLeft: 185,
   },
-  deleteContainer: {
-    marginLeft: 225,
+  menuItemContainer: {
     padding: 3,
     transform: [{ translateY: -7 }],
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderWidth: 1,
+    borderColor: "red",
   },
 });

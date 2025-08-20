@@ -19,6 +19,8 @@ import {
 } from "./utils/manageData";
 import { useEffect, useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import editModal from "./components/EditModal";
+import EditModal from "./components/EditModal";
 
 interface ItemProps {
   id: string;
@@ -45,6 +47,8 @@ export default function viewScreen() {
   const { content, date } = useLocalSearchParams();
   const trashTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const trashFadeAnim = useAnimatedValue(0);
+  const [editVisible, setEditVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<LogProps | null>(null);
 
   // Store formatted data into DATA
   useEffect(() => {
@@ -113,6 +117,24 @@ export default function viewScreen() {
     setDATA((prevData) => prevData.filter((item) => item.id !== id));
   };
 
+  const handleEdit = (id: string, date: string, content: string) => {
+    console.log("edit pressed:", id, date, content);
+    setSelectedItem({ id, date, content });
+    setEditVisible(true);
+  };
+
+  const handleCancelEdit = () => {
+    console.log("edit should cancel");
+    setEditVisible(false);
+    setSelectedItem(null);
+  };
+
+  const handleSubmitEdit = () => {
+    console.log("edit should submit");
+    setEditVisible(false);
+    setSelectedItem(null);
+  };
+
   const handlePress = (id: string, date: string, content: string) => {
     console.log("item pressed:", id, date, content);
     console.log("temp:", showDelete);
@@ -173,19 +195,27 @@ export default function viewScreen() {
         onLongPress={() => handleLongPress(id, date, content)}
       >
         <View style={viewStyles.itemContainer}>
-          <View style={viewStyles.inlineContainer}>
+          <View style={{ flexDirection: "row" }}>
             <Text style={viewStyles.logDate}>{date}</Text>
             {isDeleteVisible && (
               <Animated.View
                 style={{ opacity: trashFadeAnim }}
                 pointerEvents={isDeleteVisible ? "auto" : "none"}
               >
-                <Pressable
-                  style={viewStyles.deleteContainer}
-                  onPress={() => confirmDelete(id)}
-                >
-                  <Ionicons name="trash" size={17} color="#666" />
-                </Pressable>
+                <View style={viewStyles.menuInlineContainer}>
+                  <Pressable
+                    style={viewStyles.menuItemContainer}
+                    onPress={() => handleEdit(id, date, content)}
+                  >
+                    <Ionicons name="pencil" size={17} color="#666" />
+                  </Pressable>
+                  <Pressable
+                    style={viewStyles.menuItemContainer}
+                    onPress={() => confirmDelete(id)}
+                  >
+                    <Ionicons name="trash" size={17} color="#666" />
+                  </Pressable>
+                </View>
               </Animated.View>
             )}
           </View>
@@ -217,6 +247,12 @@ export default function viewScreen() {
         )}
         keyExtractor={(item) => item.id}
         style={viewStyles.listContainer}
+      />
+      <EditModal
+        visible={editVisible}
+        item={selectedItem}
+        onCancel={handleCancelEdit}
+        onSubmit={handleSubmitEdit}
       />
     </View>
   );
