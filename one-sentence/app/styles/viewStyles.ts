@@ -36,7 +36,5 @@ export const viewStyles = StyleSheet.create({
     transform: [{ translateY: -7 }],
     paddingLeft: 5,
     paddingRight: 5,
-    borderWidth: 1,
-    borderColor: "red",
   },
 });

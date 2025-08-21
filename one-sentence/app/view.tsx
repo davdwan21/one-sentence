@@ -74,7 +74,7 @@ export default function viewScreen() {
           .sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
         setDATA(formattedData);
-        console.log(formattedData);
+        console.log("DATA:", formattedData);
 
         setShowDelete(formattedData.map(({ id }) => ({ id, show: false })));
       } catch (error) {
@@ -129,8 +129,12 @@ export default function viewScreen() {
     setSelectedItem(null);
   };
 
-  const handleSubmitEdit = () => {
-    console.log("edit should submit");
+  const handleSubmitEdit = (id: string, newContent: string) => {
+    setDATA((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, content: newContent } : item
+      )
+    );
     setEditVisible(false);
     setSelectedItem(null);
   };
@@ -228,12 +232,6 @@ export default function viewScreen() {
   return (
     <View style={viewStyles.viewContainer}>
       <Text style={globalStyles.title}>view logs</Text>
-      <TouchableOpacity
-        style={globalStyles.devButton}
-        onPress={receiveClearAllData}
-      >
-        <Text>delete logs</Text>
-      </TouchableOpacity>
       <FlatList
         data={DATA}
         renderItem={({ item }) => (
@@ -257,3 +255,12 @@ export default function viewScreen() {
     </View>
   );
 }
+
+/* dev delete button
+<TouchableOpacity
+  style={globalStyles.devButton}
+  onPress={receiveClearAllData}
+>
+  <Text>delete logs</Text>
+</TouchableOpacity>
+*/

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import { storeData } from "../utils/manageData";
 
 interface LogProps {
   id: string;
@@ -18,7 +19,7 @@ interface Props {
   visible: boolean;
   item: LogProps | null;
   onCancel: () => void;
-  onSubmit: () => void;
+  onSubmit: (id: string, content: string) => void;
 }
 
 export default function EditModal({
@@ -27,23 +28,29 @@ export default function EditModal({
   onCancel,
   onSubmit,
 }: Props) {
-  const [date, setDate] = useState(item?.date ?? "");
+  const handleConfirmEdit = async () => {
+    const edittedLog = {
+      id: itemId,
+      date: date,
+      content: content,
+    };
+    await storeData(edittedLog);
+    onSubmit(itemId, content);
+  };
+
   const [content, setContent] = useState(item?.content ?? "");
+  const date = item?.date ?? "";
+  const itemId = item?.id ?? "";
 
   useEffect(() => {
-    setDate(item?.date ?? "");
     setContent(item?.content ?? "");
   }, [item, visible]);
-
-  let itemId = item?.id ?? "";
 
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
       <View style={editStyles.modalContainer}>
         <View style={editStyles.modalContent}>
-          <Text style={editStyles.testText}>
-            edit menu for {itemId}, {date}, {content}
-          </Text>
+          <Text style={editStyles.testText}>edit log</Text>
           <TextInput
             style={editStyles.editInput}
             value={content}
@@ -59,7 +66,7 @@ export default function EditModal({
               <Text style={{ color: "#ff443b" }}>cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={onSubmit}
+              onPress={handleConfirmEdit}
               style={[editStyles.closeModalButton, { marginLeft: 25 }]}
             >
               <Text style={{ color: "#448df4" }}>submit</Text>
@@ -89,9 +96,8 @@ export const editStyles = StyleSheet.create({
     backgroundColor: "transparent",
     padding: 15,
     borderRadius: 5,
-    marginTop: 20,
-    borderColor: "red",
-    borderWidth: 1,
+    marginTop: 10,
+    transform: [{ translateY: 5 }],
   },
   testText: {
     color: "#ffffff",
