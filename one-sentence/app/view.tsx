@@ -43,7 +43,7 @@ interface ShowProps {
 
 export default function viewScreen() {
   const [DATA, setDATA] = useState<LogProps[]>([]);
-  const [showDelete, setShowDelete] = useState<ShowProps[]>([]);
+  const [showMenu, setShowDelete] = useState<ShowProps[]>([]);
   const { content, date } = useLocalSearchParams();
   const trashTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const trashFadeAnim = useAnimatedValue(0);
@@ -84,7 +84,7 @@ export default function viewScreen() {
     processData();
   }, [content, date]);
 
-  // Initialize showDelete for trash bin animation
+  // Initialize showMenu for trash bin animation
   useEffect(() => {
     setShowDelete((prev) =>
       DATA.map(({ id }) => ({
@@ -141,7 +141,7 @@ export default function viewScreen() {
 
   const handlePress = (id: string, date: string, content: string) => {
     console.log("item pressed:", id, date, content);
-    console.log("temp:", showDelete);
+    console.log("temp:", showMenu);
   };
 
   const receiveClearAllData = async () => {
@@ -190,8 +190,8 @@ export default function viewScreen() {
   };
 
   const Item = ({ id, date, content }: ItemProps) => {
-    const isDeleteVisible =
-      showDelete.find((item) => item.id === id)?.show ?? false;
+    const isMenuVisible =
+      showMenu.find((item) => item.id === id)?.show ?? false;
 
     return (
       <Pressable
@@ -201,10 +201,10 @@ export default function viewScreen() {
         <View style={viewStyles.itemContainer}>
           <View style={{ flexDirection: "row" }}>
             <Text style={viewStyles.logDate}>{date}</Text>
-            {isDeleteVisible && (
+            {isMenuVisible && (
               <Animated.View
                 style={{ opacity: trashFadeAnim }}
-                pointerEvents={isDeleteVisible ? "auto" : "none"}
+                pointerEvents={isMenuVisible ? "auto" : "none"}
               >
                 <View style={viewStyles.menuInlineContainer}>
                   <Pressable

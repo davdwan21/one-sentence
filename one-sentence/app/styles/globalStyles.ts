@@ -43,4 +43,30 @@ export const globalStyles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
   },
+  testParallelogram: {
+    width: 10,
+    height: 10,
+    backgroundColor: "#ffffff",
+    transform: [{ skewX: "-20deg" }],
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 2,
+  },
+  inlineContainer: {
+    flexDirection: "row",
+  },
+  logoBox: {
+    position: "relative",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 850,
+    height: 850,
+    zIndex: -3,
+  },
+  logoInner: {
+    position: "absolute",
+    zIndex: -2,
+    height: 150,
+    width: 150,
+  },
 });
