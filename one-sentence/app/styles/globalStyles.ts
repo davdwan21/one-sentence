@@ -26,9 +26,9 @@ export const globalStyles = StyleSheet.create({
   },
   backgroundDayYear: {
     position: "absolute",
-    top: "26%",
+    top: "26.5%",
     left: "0%",
-    fontSize: 90,
+    fontSize: 95,
     color: "#666",
     fontWeight: "bold",
     opacity: 0.15,
