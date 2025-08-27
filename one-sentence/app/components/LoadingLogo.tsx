@@ -5,7 +5,8 @@ import { useEffect } from "react";
 import LogoInner from "../assets/images/ahme-inner-0B.svg";
 import LogoOuter from "../assets/images/ahme-outer-0B.svg";
 
-export function Loading5Sec() {
+export function Loading2Spins() {
+  // setTimeout 5000
   const logoOpacity = useAnimatedValue(0);
   const spinValue = useAnimatedValue(0);
 
@@ -42,21 +43,13 @@ export function Loading5Sec() {
       });
     }, 2500);
     setTimeout(() => {
-      Animated.timing(spinValue, {
-        toValue: 0.5,
-        duration: 1000,
-        easing: Easing.out(Easing.exp),
-        useNativeDriver: true,
-      }).start();
-    }, 3500);
-    setTimeout(() => {
       Animated.timing(logoOpacity, {
         toValue: 0,
         duration: 750,
         easing: Easing.out(Easing.exp),
         useNativeDriver: true,
       }).start();
-    }, 4500);
+    }, 3500);
   }, []);
 
   return (

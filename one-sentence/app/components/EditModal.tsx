@@ -78,7 +78,7 @@ export default function EditModal({
   );
 }
 
-export const editStyles = StyleSheet.create({
+const editStyles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     alignItems: "center",
