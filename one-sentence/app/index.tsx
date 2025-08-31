@@ -7,12 +7,14 @@ import {
   Keyboard,
   useAnimatedValue,
   Animated,
+  KeyboardAvoidingView,
+  Platform,
+  Easing,
 } from "react-native";
 import { useState } from "react";
 import { getCombinedDate } from "./utils/getDate";
 import { useRouter } from "expo-router";
 import { indexStyles } from "./styles/indexStyles";
-import { globalStyles } from "./styles/globalStyles";
 
 // might need to implement a character count
 // check that the text box isnt empty before submission
@@ -22,7 +24,6 @@ export default function Index() {
   const router = useRouter();
   const fadeAnim = useAnimatedValue(1);
   const [inputValue, setInputValue] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
   const date = getCombinedDate();
 
   const handleSubmit = () => {
@@ -30,10 +31,10 @@ export default function Index() {
     Keyboard.dismiss();
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 1000,
+      duration: 750,
+      easing: Easing.linear,
       useNativeDriver: true,
     }).start(() => {
-      setShowSuccess(true);
       handleNavigation();
     });
   };
@@ -48,7 +49,7 @@ export default function Index() {
         },
       });
       console.log("Navigation successful");
-    }, 1500);
+    }, 750);
   };
 
   const devGoToView = () => {
@@ -62,11 +63,13 @@ export default function Index() {
       style={indexStyles.keyboardDismissContainer}
       onPress={Keyboard.dismiss}
     >
-      {!showSuccess ? (
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
         <Animated.View
           style={[indexStyles.keyboardDismissContainer, { opacity: fadeAnim }]}
         >
-          <Text style={globalStyles.title}>home page</Text>
           <TextInput
             style={indexStyles.input}
             multiline={true}
@@ -82,11 +85,7 @@ export default function Index() {
             <Text>submit log</Text>
           </TouchableOpacity>
         </Animated.View>
-      ) : (
-        <View style={globalStyles.container}>
-          <Text style={globalStyles.successText}>success :)</Text>
-        </View>
-      )}
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

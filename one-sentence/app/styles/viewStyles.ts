@@ -12,6 +12,19 @@ export const viewStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 400,
+    borderColor: "purple",
+    borderWidth: 1,
+  },
+  searchBar: {
+    top: 25,
+    borderColor: "#666",
+    borderWidth: 1,
+    borderRadius: 5,
+    color: "#eee",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    height: 40,
+    width: 350,
   },
   logDate: {
     fontSize: 14,
@@ -23,7 +36,7 @@ export const viewStyles = StyleSheet.create({
     color: "#eee",
   },
   listContainer: {
-    marginTop: 100,
+    top: 40,
     flex: 1,
     width: "90%",
   },

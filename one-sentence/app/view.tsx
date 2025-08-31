@@ -4,12 +4,12 @@ import {
   View,
   FlatList,
   Pressable,
-  TouchableOpacity,
   useAnimatedValue,
   Animated,
   Alert,
+  TextInput,
+  Easing,
 } from "react-native";
-import { globalStyles } from "./styles/globalStyles";
 import { viewStyles } from "./styles/viewStyles";
 import {
   storeData,
@@ -17,9 +17,8 @@ import {
   removeLog,
   clearAllData,
 } from "./utils/manageData";
-import { useEffect, useState, useRef } from "react";
+import { useMemo, useEffect, useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import editModal from "./components/EditModal";
 import EditModal from "./components/EditModal";
 
 interface ItemProps {
@@ -49,6 +48,17 @@ export default function viewScreen() {
   const trashFadeAnim = useAnimatedValue(0);
   const [editVisible, setEditVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<LogProps | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const fadeInAnim = useAnimatedValue(0);
+
+  /*   useEffect(() => {
+    Animated.timing(fadeInAnim, {
+      toValue: 1,
+      duration: 500,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  }, []); */
 
   // Store formatted data into DATA
   useEffect(() => {
@@ -93,6 +103,16 @@ export default function viewScreen() {
       }))
     );
   }, [DATA]);
+
+  const filteredSearchData = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    const result = DATA.filter((item) => {
+      return (item.content + " " + item.date).toLowerCase().includes(q);
+    });
+    console.log("result:", result);
+    if (!q) return DATA;
+    return result;
+  }, [DATA, searchQuery]);
 
   const confirmDelete = (id: string) => {
     Alert.alert(
@@ -189,6 +209,10 @@ export default function viewScreen() {
     }, 2000);
   };
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
   const Item = ({ id, date, content }: ItemProps) => {
     const isMenuVisible =
       showMenu.find((item) => item.id === id)?.show ?? false;
@@ -231,9 +255,13 @@ export default function viewScreen() {
 
   return (
     <View style={viewStyles.viewContainer}>
-      <Text style={globalStyles.title}>view logs</Text>
+      <TextInput
+        placeholder="looking for a specific log?"
+        style={viewStyles.searchBar}
+        onChangeText={(query) => handleSearch(query)}
+      />
       <FlatList
-        data={DATA}
+        data={filteredSearchData}
         renderItem={({ item }) => (
           <Item
             id={item.id}
