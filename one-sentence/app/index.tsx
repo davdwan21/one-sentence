@@ -31,8 +31,8 @@ export default function Index() {
     Keyboard.dismiss();
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 750,
-      easing: Easing.linear,
+      duration: 500,
+      easing: Easing.bezier(0.83, 0.67, 0.17, 0.67),
       useNativeDriver: true,
     }).start(() => {
       handleNavigation();
@@ -49,7 +49,7 @@ export default function Index() {
         },
       });
       console.log("Navigation successful");
-    }, 750);
+    }, 500);
   };
 
   const devGoToView = () => {

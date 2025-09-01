@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Animated, useAnimatedValue } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Slot, usePathname } from "expo-router";
 import { globalStyles } from "./styles/globalStyles";
@@ -15,8 +15,6 @@ export default function RootLayout() {
       setIsLoading(false);
     }, 4000);
   }, []);
-
-  useEffect(() => {}, [pathname]);
 
   if (isLoading) {
     return <Loading2Spins />;

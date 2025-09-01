@@ -51,14 +51,14 @@ export default function viewScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const fadeInAnim = useAnimatedValue(0);
 
-  /*   useEffect(() => {
+  useEffect(() => {
     Animated.timing(fadeInAnim, {
       toValue: 1,
       duration: 500,
-      easing: Easing.linear,
+      easing: Easing.bezier(0.17, 0.67, 0.83, 0.67),
       useNativeDriver: true,
     }).start();
-  }, []); */
+  });
 
   // Store formatted data into DATA
   useEffect(() => {
@@ -254,7 +254,7 @@ export default function viewScreen() {
   };
 
   return (
-    <View style={viewStyles.viewContainer}>
+    <Animated.View style={[{ opacity: fadeInAnim }, viewStyles.viewContainer]}>
       <TextInput
         placeholder="looking for a specific log?"
         style={viewStyles.searchBar}
@@ -280,7 +280,7 @@ export default function viewScreen() {
         onCancel={handleCancelEdit}
         onSubmit={handleSubmitEdit}
       />
-    </View>
+    </Animated.View>
   );
 }
 

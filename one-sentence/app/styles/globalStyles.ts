@@ -19,8 +19,6 @@ export const globalStyles = StyleSheet.create({
   backgroundContainer: {
     ...StyleSheet.absoluteFillObject,
     zIndex: -1,
-    borderColor: "red",
-    borderWidth: 1,
   },
   backgroundTitle: {
     top: 75,

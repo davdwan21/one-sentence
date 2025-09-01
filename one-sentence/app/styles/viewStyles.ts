@@ -12,8 +12,6 @@ export const viewStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 400,
-    borderColor: "purple",
-    borderWidth: 1,
   },
   searchBar: {
     top: 25,
