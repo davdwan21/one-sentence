@@ -20,6 +20,7 @@ import {
 import { useMemo, useEffect, useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import EditModal from "./components/EditModal";
+import DeleteModal from "./components/DeleteModal";
 
 interface ItemProps {
   id: string;
@@ -48,6 +49,8 @@ export default function viewScreen() {
   const trashFadeAnim = useAnimatedValue(0);
   const [editVisible, setEditVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<LogProps | null>(null);
+  const [deleteVisible, setDeleteVisible] = useState(false);
+  const [itemIdToDelete, setItemIdToDelete] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const fadeInAnim = useAnimatedValue(0);
 
@@ -114,27 +117,22 @@ export default function viewScreen() {
     return result;
   }, [DATA, searchQuery]);
 
-  const confirmDelete = (id: string) => {
-    Alert.alert(
-      "Delete log?",
-      "This action can't be undone.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => actuallyDelete(id),
-        },
-      ],
-      {
-        cancelable: true,
-      }
-    );
+  const handleDelete = (id: string, date: string, content: string) => {
+    console.log("delete pressed:", id);
+    setSelectedItem({ id, date, content });
+    setDeleteVisible(true);
   };
 
-  const actuallyDelete = async (id: string) => {
-    await removeLog(id);
+  const handleCancelDelete = () => {
+    console.log("delete canceled");
+    setSelectedItem(null);
+    setDeleteVisible(false);
+  };
+
+  const handleActuallyDelete = async (id: string) => {
     setDATA((prevData) => prevData.filter((item) => item.id !== id));
+    setSelectedItem(null);
+    setDeleteVisible(false);
   };
 
   const handleEdit = (id: string, date: string, content: string) => {
@@ -239,7 +237,7 @@ export default function viewScreen() {
                   </Pressable>
                   <Pressable
                     style={viewStyles.menuItemContainer}
-                    onPress={() => confirmDelete(id)}
+                    onPress={() => handleDelete(id, date, content)}
                   >
                     <Ionicons name="trash" size={17} color="#666" />
                   </Pressable>
@@ -279,6 +277,12 @@ export default function viewScreen() {
         item={selectedItem}
         onCancel={handleCancelEdit}
         onSubmit={handleSubmitEdit}
+      />
+      <DeleteModal
+        visible={deleteVisible}
+        item={selectedItem}
+        onCancel={handleCancelDelete}
+        onDelete={handleActuallyDelete}
       />
     </Animated.View>
   );
