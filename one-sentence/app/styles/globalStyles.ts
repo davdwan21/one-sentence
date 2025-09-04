@@ -21,7 +21,7 @@ export const globalStyles = StyleSheet.create({
     zIndex: -1,
   },
   backgroundTitle: {
-    top: 75,
+    top: 40,
     fontSize: 120,
     color: "#666",
     fontWeight: "bold",
@@ -29,7 +29,7 @@ export const globalStyles = StyleSheet.create({
     zIndex: -1,
   },
   backgroundMonth: {
-    top: 85,
+    top: 50,
     fontSize: 180,
     color: "#666",
     fontWeight: "bold",
@@ -37,7 +37,6 @@ export const globalStyles = StyleSheet.create({
     zIndex: -1,
   },
   backgroundDayYear: {
-    top: 35,
     fontSize: 95,
     color: "#666",
     fontWeight: "bold",

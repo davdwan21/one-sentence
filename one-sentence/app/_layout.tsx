@@ -27,7 +27,6 @@ export default function RootLayout() {
       <SafeAreaView
         style={[{ backgroundColor: "#0B1215" }, globalStyles.container]}
       >
-        <Background titleText={backgroundText} />
         <View style={globalStyles.slotContainer}>
           <Slot />
         </View>

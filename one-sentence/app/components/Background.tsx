@@ -1,17 +1,20 @@
 import { globalStyles } from "../styles/globalStyles";
-import { View, Text } from "react-native";
+import { View, Text, Animated } from "react-native";
 import { getSplitDate } from "../utils/getDate";
 
 interface Props {
   titleText: string;
+  titleOpacity: Animated.Value;
 }
 
-export function Background({ titleText }: Props) {
+export function Background({ titleText, titleOpacity }: Props) {
   const { month, day, year } = getSplitDate();
 
   return (
     <View style={globalStyles.backgroundContainer} pointerEvents="none">
-      <Text style={globalStyles.backgroundTitle}>{titleText}</Text>
+      <Animated.View style={{ opacity: titleOpacity }}>
+        <Text style={globalStyles.backgroundTitle}>{titleText}</Text>
+      </Animated.View>
       <Text style={globalStyles.backgroundMonth}>{month}</Text>
       <Text style={globalStyles.backgroundDayYear}>
         {day} {year}

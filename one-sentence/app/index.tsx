@@ -15,6 +15,7 @@ import { useState } from "react";
 import { getCombinedDate } from "./utils/getDate";
 import { useRouter } from "expo-router";
 import { indexStyles } from "./styles/indexStyles";
+import { Background } from "./components/Background";
 
 // might need to implement a character count
 // check that the text box isnt empty before submission
@@ -23,12 +24,21 @@ import { indexStyles } from "./styles/indexStyles";
 export default function Index() {
   const router = useRouter();
   const fadeAnim = useAnimatedValue(1);
+  const titleFade = useAnimatedValue(1);
   const [inputValue, setInputValue] = useState("");
   const date = getCombinedDate();
 
   const handleSubmit = () => {
     console.log("Submitted value: " + inputValue);
     Keyboard.dismiss();
+    setTimeout(() => {
+      Animated.timing(titleFade, {
+        toValue: 0,
+        duration: 250,
+        easing: Easing.bezier(0.83, 0.67, 0.17, 0.67),
+        useNativeDriver: true,
+      }).start();
+    }, 250);
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 500,
@@ -67,6 +77,7 @@ export default function Index() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
+        <Background titleText={"title"} titleOpacity={titleFade} />
         <Animated.View
           style={[indexStyles.keyboardDismissContainer, { opacity: fadeAnim }]}
         >

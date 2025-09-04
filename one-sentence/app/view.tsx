@@ -21,6 +21,7 @@ import { useMemo, useEffect, useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import EditModal from "./components/EditModal";
 import DeleteModal from "./components/DeleteModal";
+import { Background } from "./components/Background";
 
 interface ItemProps {
   id: string;
@@ -50,11 +51,18 @@ export default function viewScreen() {
   const [editVisible, setEditVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<LogProps | null>(null);
   const [deleteVisible, setDeleteVisible] = useState(false);
-  const [itemIdToDelete, setItemIdToDelete] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const fadeInAnim = useAnimatedValue(0);
+  const titleFadeIn = useAnimatedValue(0);
 
+  // Fade in animation
   useEffect(() => {
+    Animated.timing(titleFadeIn, {
+      toValue: 1,
+      duration: 250,
+      easing: Easing.bezier(0.17, 0.67, 0.83, 0.67),
+      useNativeDriver: true,
+    }).start();
     Animated.timing(fadeInAnim, {
       toValue: 1,
       duration: 500,
@@ -253,6 +261,7 @@ export default function viewScreen() {
 
   return (
     <Animated.View style={[{ opacity: fadeInAnim }, viewStyles.viewContainer]}>
+      <Background titleText={"view"} titleOpacity={titleFadeIn} />
       <TextInput
         placeholder="looking for a specific log?"
         style={viewStyles.searchBar}
