@@ -6,17 +6,11 @@ import {
   Pressable,
   useAnimatedValue,
   Animated,
-  Alert,
   TextInput,
   Easing,
 } from "react-native";
 import { viewStyles } from "./styles/viewStyles";
-import {
-  storeData,
-  getAllData,
-  removeLog,
-  clearAllData,
-} from "./utils/manageData";
+import { storeData, getAllData, clearAllData } from "./utils/manageData";
 import { useMemo, useEffect, useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import EditModal from "./components/EditModal";

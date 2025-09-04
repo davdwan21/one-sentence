@@ -1,8 +1,7 @@
-import { Text, View, Animated, useAnimatedValue } from "react-native";
+import { View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Slot, usePathname } from "expo-router";
 import { globalStyles } from "./styles/globalStyles";
-import { Background } from "./components/Background";
 import { useEffect, useState } from "react";
 import { Loading2Spins } from "./components/LoadingLogo";
 

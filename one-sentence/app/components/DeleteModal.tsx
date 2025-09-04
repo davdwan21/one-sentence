@@ -1,7 +1,7 @@
 // DeleteModal: only need the id of the log
 // delete and cancel button
 
-import { Modal, Text, Touchable, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { modalStyles } from "../styles/modalStyles";
 import { removeLog } from "../utils/manageData";
 
