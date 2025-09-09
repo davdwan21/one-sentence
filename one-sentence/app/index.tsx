@@ -76,7 +76,7 @@ export default function Index() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <Background titleText={"title"} titleOpacity={titleFade} />
+        <Background titleText={"write"} titleOpacity={titleFade} />
         <Animated.View
           style={[indexStyles.keyboardDismissContainer, { opacity: fadeAnim }]}
         >
