@@ -1,25 +1,29 @@
 import { View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Slot, usePathname } from "expo-router";
+import { Slot } from "expo-router";
 import { globalStyles } from "./styles/globalStyles";
 import { useEffect, useState } from "react";
-import { Loading2Spins } from "./components/LoadingLogo";
+import { Loading1Spin, Loading2Spins } from "./components/LoadingLogo";
 
 export default function RootLayout() {
   const [isLoading, setIsLoading] = useState(true);
-  const pathname = usePathname();
+  const randomNum = Math.random();
+  const oneSpin = randomNum < 0.66 ? true : false;
+  const loadingTime = randomNum < 0.66 ? 3000 : 4000;
 
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, loadingTime);
   }, []);
 
   if (isLoading) {
-    return <Loading2Spins />;
+    if (oneSpin) {
+      return <Loading1Spin />;
+    } else {
+      return <Loading2Spins />;
+    }
   }
-
-  let backgroundText = pathname === "/" ? "title" : "view";
 
   return (
     <SafeAreaProvider>
