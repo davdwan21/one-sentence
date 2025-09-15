@@ -6,7 +6,7 @@
 
 ## Demo
 
-video: to be made and added
+[Demo Video](https://youtube.com/shorts/bwKp9wprZyI?feature=share)
 
 ## Features
 
