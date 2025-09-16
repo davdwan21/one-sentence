@@ -12,17 +12,23 @@
 
 Write to console: Whatever you want to write about. Store happy memories or shout into the void.
 
+<img src="https://github.com/davdwan21/one-sentence/blob/main/assets/write.jpg" width="40%" height="40%"/>
 
-View environment
+View environment: The past at your fingertips. View, edit, delete, or search through old logs.
 
+<img src="https://github.com/davdwan21/one-sentence/blob/main/assets/view.jpg" width="40%" height="40%"/>
 
-Search
+Long press on a log to open an edit/delete menu for that log.
 
-Open menu
+<img src="https://github.com/davdwan21/one-sentence/blob/main/assets/menu.jpg" width="40%" height="40%"/>
 
-Edit
+Edit menu
 
-Delete
+<img src="https://github.com/davdwan21/one-sentence/blob/main/assets/edit.jpg" width="40%" height="40%"/>
+
+Delete menu
+
+<img src="https://github.com/davdwan21/one-sentence/blob/main/assets/delete.jpg" width="40%" height="40%"/>
 
 ## About
 
@@ -39,3 +45,7 @@ Contact me, the disembodied voice :)
 
 
 This app was a small personal project for me to get familiar with React Native, Typescript, and JSX. I worked on this project over the summer between high school and college, and I had a lot of fun with it! It's not everything I envisioned (there's still stuff I might want to add) but I learned a lot about web design, data management, and project release. I might not continue this project since I have a more ambitious React Native project that I want to work on during my Freshman year. Thanks for reading this and have a great day!
+
+### if you'd like to try it for yourself
+
+make sure you've installed expo go and node js --> navigate to project directory --> npm install --> npx expo start
